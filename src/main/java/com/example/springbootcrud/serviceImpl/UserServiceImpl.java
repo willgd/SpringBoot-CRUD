@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 @Slf4j
 @Service
@@ -74,7 +76,13 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void updateUserByUserId(User user) {
-        userMapper.updateUserByUserId(user);
+        log.info("user={}",user);
+        if (user.isAdmin()){
+            userMapper.updateUserByUserId(user);
+            adminMapper.updateAdmin(new Date(),user.getUserId());
+        }else {
+            userMapper.updateUserByUserId(user);
+        }
     }
 
     /**
@@ -94,6 +102,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void insertUser(User user) {
-        userMapper.insertUser(user);
+        if (user.isAdmin()) {
+            userMapper.insertUser(user);
+            adminMapper.insertAdmin(user.getUserId(), user.getUserId(), new Date(),new Date());
+        }else {
+            userMapper.insertUser(user);
+        }
     }
 }

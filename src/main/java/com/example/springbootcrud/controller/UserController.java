@@ -55,6 +55,7 @@ public class UserController {
     @RequestMapping(value = "/user/{userId}",method = RequestMethod.GET)
     public String findUser(@PathVariable("userId")int userId, Model model){
         User user = userService.getUserByUserId(userId);
+        log.info("user={}",user);
         model.addAttribute("user",user);
         return "update";
     }
@@ -68,7 +69,6 @@ public class UserController {
      */
     @RequestMapping(value = "/user",method = RequestMethod.PUT)
     public String update(User user,@RequestPart("handImg") MultipartFile handImg) throws IOException {
-        log.info("修改信息：userId={},avatar={}",user.getUserId(),handImg.getSize());
         if (!handImg.isEmpty()){
             String filename = handImg.getOriginalFilename();
             String Path = ClassUtils.getDefaultClassLoader().getResource("").getPath() + "static/img/" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + filename;
@@ -77,6 +77,8 @@ public class UserController {
             user.setAvatar("img/"+substring);
             log.info("avatar：Path={}",Path);
             handImg.transferTo(new File(Path));
+            userService.updateUserByUserId(user);
+        }else {
             userService.updateUserByUserId(user);
         }
         return "redirect:/user";

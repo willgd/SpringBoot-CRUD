@@ -7,6 +7,7 @@
 <body>
 <form th:action="@{/user}" method="post" enctype="multipart/form-data">
     <input type="hidden" value="PUT" name="_method">
+    <input type="hidden" name="adminCode" th:value="${user.adminCode}">
 
     <table border="1px solid">
         <tr>

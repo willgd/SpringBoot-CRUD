@@ -4,6 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.springbootcrud.mapper.AdminMapper">
+    <insert id="insertAdmin">
+        insert into admin(admin_id, user_id, creat_time, update_time)
+        VALUES (#{adminId},#{userId},#{creatTime},#{updateTime})
+    </insert>
+    <update id="updateAdmin">
+        update admin set update_time=#{updateTime} where user_id=#{userId}
+    </update>
     <!--<resultMap id="adminMap" type="com.example.springbootcrud.pojo.Admin">
         <id property="adminId" column="adminId"/>
         <result property="userId" column="userId"/>

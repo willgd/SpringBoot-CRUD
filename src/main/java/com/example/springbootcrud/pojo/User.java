@@ -1,5 +1,6 @@
 package com.example.springbootcrud.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -15,8 +16,14 @@ public class User {
     private String avatar;
     private String detail;
     private int level;
-    private boolean admin;
+    private int adminCode;
     private String tel;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birth;
+    @TableField(exist = false)
+    private boolean admin;
+
+    public boolean isAdmin() {
+        return adminCode == 1;
+    }
 }

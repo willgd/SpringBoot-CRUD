@@ -58,7 +58,6 @@ public class UserController {
         model.addAttribute("user",user);
         return "update";
     }
-    //TODO 不要舍本逐末
 
     /**
      * 修改用户信息

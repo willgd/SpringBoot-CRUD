@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        table.gridtable {
+            font-family: verdana, arial, sans-serif;
+            font-size: 15px;
+            text-align: center;
+            margin-left: 30%;
+            height: 100%;
+            background-image: linear-gradient(to right,#fbc2eb,#a6c1ee);
+        }
+
+        table.gridtable th {
+            /*border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #02b68a;
+            background-color: #36abf4;*/
+            background-color: #fff;
+            width: 250px;
+            height: 500px;
+            border-radius: 15px;
+            padding: 0 50px;
+            position: relative;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+        }
+
+        table.gridtable td {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #73bdb2;
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<table class="gridtable">
+    <tr>
+        <td><label>avatar</label></td>
+        <td><label>adminId</label></td>
+        <td><label>userId</label></td>
+        <td><label>creatTime</label></td>
+        <td><label>updateTime</label></td>
+    </tr>
+    <tr th:each="admin: ${adminList}">
+        <td><img height="50" width="50" alt="" th:src="${admin.avatar}"></td>
+        <td th:text="${admin.adminId}"></td>
+        <td th:text="${admin.userId}"></td>
+        <td th:text="${#dates.format(admin.creatTime, 'yyyy-MM-dd HH:mm:ss')}" ></td>
+        <td th:text="${#dates.format(admin.updateTime, 'yyyy-MM-dd HH:mm:ss')}" ></td>
+    </tr>
+</table>
+<br>
+<br>
+<br>
+</body>
+</html>

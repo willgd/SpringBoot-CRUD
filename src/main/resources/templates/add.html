@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>添加</title>
+</head>
+<body>
+<form th:action="@{/user}" method="post" enctype="multipart/form-data">
+
+    <table border="1px solid">
+        <tr>
+            <!--td><img height="50" width="50" alt="" th:src="@{/}+${user.avatar}" th:value="${user.userId}"></td>-->
+            <td><label for="handImg">请上传头像</label></td>
+            <td><input type="file" name="handImg" id="handImg"></td>
+        </tr>
+        <!--<tr>
+            <td><label th:for="${user.userId}">userId</label></td>
+            <td><input type="text" name="userId" th:id="${user.userId}" th:value="${user.userId}" readonly="readonly"></td>
+        </tr>-->
+        <tr>
+            <td><label for="name">name</label></td>
+            <td>
+                <input type="text" name="name" id="name">
+            </td>
+        </tr>
+        <tr>
+            <td><label for="age">age</label></td>
+            <td>
+                <input type="text" name="age" id="age">
+            </td>
+        </tr>
+        <tr>
+            <td><label for="email">email</label></td>
+            <td>
+                <input type="email" name="email" id="email">
+            </td>
+        </tr>
+        <tr>
+            <td><label>性别</label></td>
+            <td>
+                <label>男<input type="radio" name="gender" value="男" checked="checked"></label>
+                <label>女<input type="radio" name="gender" value="女"></label>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="detail">detail</label></td>
+            <td>
+                <input type="text" name="detail" id="detail">
+            </td>
+        </tr>
+        <tr>
+            <td><label for="tel">tel</label></td>
+            <td>
+                <input type="tel" name="tel" id="tel">
+            </td>
+        </tr>
+        <tr>
+            <td><label for="birth">birth</label></td>
+            <td>
+                <input type="date" name="birth" id="birth">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <input type="submit" value="提交">
+            </td>
+        </tr>
+    </table>
+</form>
+
+
+</body>
+</html>

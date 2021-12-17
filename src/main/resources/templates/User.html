@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <script>
+        function addUser() {
+            $.get("/add", {userId: "zhangsan"}, function (data) {
+                alert(data);
+            });
+        }
+    </script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            font-family: 'Open Sans Light';
+            letter-spacing: .05em;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+        }
+
+        table.gridtable {
+            font-family: verdana, arial, sans-serif;
+            font-size: 15px;
+            text-align: center;
+            margin-left: 30%;
+            background-image: linear-gradient(to right, #fffbfb, #eadae5);
+            background-color: #fff;
+            border-radius: 15px;
+            position: relative;
+            outline: none;
+            border: 1px solid;
+        }
+
+        table.gridtable th {
+            padding: 8px;
+        }
+
+        table.gridtable td {
+            padding: 8px;
+
+        }
+
+        .MyActive a {
+            text-decoration-line: none;
+            color: #36abf4;
+        }
+
+        .MyActive {
+            text-align: center;
+            line-height: 80px;
+        }
+
+        .container {
+            height: 100%;
+            background-image: linear-gradient(to right, #fbc2eb, #a6c1ee);
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <table class="gridtable" id="dataTable">
+        <caption class="MyActive">用户信息</caption>
+        <tr>
+            <td><label>avatar</label></td>
+            <td><label>userID</label></td>
+            <td><label>name</label></td>
+            <td><label>age</label></td>
+            <td><label>email</label></td>
+            <td><label>gender</label></td>
+            <td><label>level</label></td>
+            <td><label>tel</label></td>
+            <td><label>birth</label></td>
+            <td class="MyActive"><a th:href="@{/addUser}">添加</a></td>
+        </tr>
+        <tr th:each="user: ${userList}">
+            <td><img height="50" width="50" alt="" th:src="@{/}+${user.avatar}"></td>
+            <td th:text="${user.userId}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.age}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.gender}"></td>
+            <td th:text="${user.level}"></td>
+            <td th:text="${user.tel}"></td>
+            <td th:text="${#dates.format(user.birth, 'yyyy-MM-dd')}"></td>
+            <td class="MyActive"><a th:href="@{/user/}+${user.userId}">修改</a>/<a @click="deleteUser" th:href="@{/user/}+${user.userId}">删除</a>
+            </td>
+        </tr>
+
+    </table>
+</div>
+<form id="deleteForm" method="post">
+    <input type="hidden" name="_method" value="delete">
+</form>
+<script th:src="@{/js/vue.js}"></script>
+<script>
+    var vue = new Vue({
+        el: "#dataTable",
+        methods: {
+            deleteUser: function (event) {
+                if(confirm("确定删除吗")) {
+                    let deleteForm = document.getElementById("deleteForm");
+                    //将事件触发的超链接赋值给表单
+                    deleteForm.action = event.target.href;
+                    //提交表单
+                    deleteForm.submit();
+                    //取消超链接默认行为
+                    event.preventDefault();
+                } else {
+                    event.preventDefault();
+                    return false
+                }
+
+            }
+        }
+    });
+</script>
+<br>
+<br>
+<br>
+</body>
+</html>

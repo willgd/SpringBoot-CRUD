@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>更新</title>
+</head>
+<body>
+<form th:action="@{/user}" method="post" enctype="multipart/form-data">
+    <input type="hidden" value="PUT" name="_method">
+
+    <table border="1px solid">
+        <tr>
+            <td><img height="50" width="50" alt="" th:src="@{/}+${user.avatar}" th:value="${user.userId}"></td>
+            <td><input type="file" name="handImg"></td>
+        </tr>
+        <tr>
+            <td><label th:for="${user.userId}">userId</label></td>
+            <td><input type="text" name="userId" th:id="${user.userId}" th:value="${user.userId}" readonly="readonly"></td>
+        </tr>
+        <tr>
+            <td><label th:for="${user.name}">name</label></td>
+            <td><input type="text" name="name" th:id="${user.name}" th:value="${user.name}"></td>
+        </tr>
+        <tr>
+            <td><label th:for="${user.age}">age</label></td>
+            <td><input type="text" name="age" th:id="${user.age}" th:value="${user.age}"></td>
+        </tr>
+        <tr>
+            <td><label th:for="${user.email}">email</label></td>
+            <td><input type="email" name="email" th:id="${user.email}" th:value="${user.email}"></td>
+        </tr>
+        <tr>
+            <td><label>性别</label></td>
+            <td colspan="2">
+                <div th:if="${user.gender} eq '男'">
+                    <label>男<input type="radio" name="gender" value="男" checked="checked"></label>
+                    <label>女<input type="radio" name="gender" value="女"></label>
+                </div>
+                <div th:if="${user.gender} eq '女'">
+                    <label>男<input type="radio" name="gender" value="男"></label>
+                    <label>女<input type="radio" name="gender" value="女" checked="checked"></label>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label th:for="${user.detail}">detail</label></td>
+            <td><input type="text" name="detail" th:id="${user.detail}" th:value="${user.detail}"></td>
+        </tr>
+        <tr>
+            <td><label th:for="${user.level}">level</label></td>
+            <td><input type="" name="level" th:id="${user.level}" th:value="${user.level}"></td>
+        </tr>
+        <tr>
+            <td><label th:for="${user.tel}">tel</label></td>
+            <td><input type="tel" name="tel" th:id="${user.tel}" th:value="${user.tel}"></td>
+        </tr>
+        <tr>
+            <td><label th:for="${user.birth}">birth</label></td>
+            <td><input type="date" name="birth" th:id="${user.birth}"
+                       th:value="${#dates.format(user.birth, 'yyyy-MM-dd')}"></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="提交">
+            </td>
+        </tr>
+    </table>
+</form>
+
+
+</body>
+</html>

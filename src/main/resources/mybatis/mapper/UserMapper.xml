@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.springbootcrud.mapper.UserMapper">
+    <insert id="insertUser">
+        insert into user(name,age,email,gender,avatar,detail,tel,birth)
+        values (#{name},#{age},#{email},#{gender},#{avatar},#{detail},#{tel},#{birth})
+    </insert>
+    <delete id="deleteUserByUserId" parameterType="int">
+        delete from user where user_id=#{userId}
+    </delete>
+
+    <select id="getUserByUserId" resultType="User">
+        select * from user where user_id=#{userId}
+    </select>
+    <select id="getAllUser" resultType="User">
+        select * from user
+    </select>
+    <select id="getLoginUserByUserId" resultType="UserLogin">
+        select * from user where user_id=#{userId}
+    </select>
+    <update id="updateUserByUserId" parameterType="User">
+        update user set
+                        name=#{name},age=#{age},email=#{email},gender=#{gender},
+                        avatar=#{avatar},detail=#{detail},detail=#{detail},
+                        level=#{level},tel=#{tel},birth=#{birth}
+        where user_Id=#{userId}
+    </update>
+</mapper>

@@ -1,24 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/style.css">
+  <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
   <title>Login2</title>
 </head>
 <body>
+<form th:action="@{/login}" id="loginFrom">
   <div class="container">
     <div class="login-wrapper">
       <div class="header">Login</div>
       <div class="form-wrapper">
         <input type="text" name="username" placeholder="username" class="input-item">
         <input type="password" name="password" placeholder="password" class="input-item">
-        <div class="btn">Login</div>
+        <div class="btn" id="submitBtn">Login</div>
       </div>
       <div class="msg">
         Don`t have account? <a href="#">Sign up</a>
       </div>
     </div>
   </div>
+</form>
 </body>
+<script>
+  $("#submitBtn").click(function () {
+    $("#loginFrom").submit();
+  })
+</script>
 </html>

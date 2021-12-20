@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 @Slf4j
 @Controller
 public class UserController {
@@ -120,7 +122,9 @@ public class UserController {
     }
 
     @RequestMapping("/login")
-    public String login(){
+    public String login(HttpServletRequest request){
+        Map<String, String[]> loginUser = request.getParameterMap();
+        log.info("loginUser={}",loginUser);
         return "login";
     }
 

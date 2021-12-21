@@ -15,7 +15,6 @@ public class User {
     private String gender;
     private String avatar;
     private String detail;
-    private int level;
     private int adminCode;
     private String tel;
     @DateTimeFormat(pattern = "yyyy-MM-dd")

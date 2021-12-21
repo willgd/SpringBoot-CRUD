@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+</head>
+<body>
+<div id="root">
+    <input type="text" :value="name"><br>
+    <input type="text" v-model:value="name">
+</div>
+<script>
+    Vue.config.productionTip=false//阻止vue默认提示
+    let x = new vue({
+        el:'#root',
+        data:{
+            name:'hello'
+        }
+    });
+    /*axios({
+        url:""
+    })*/
+
+</script>
+</body>
+</html>

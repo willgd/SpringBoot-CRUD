@@ -5,11 +5,37 @@
     <title>Title</title>
     <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
     <script>
-        function addUser() {
-            $.get("/add", {userId: "zhangsan"}, function (data) {
-                alert(data);
-            });
-        }
+        $(function () {
+            $(".del").click(function () {
+                let confirm1 = confirm("确定删除用户"+this.name+"吗？");
+                if (confirm1){
+                    $("#deleteForm").attr("action",this.href).submit();
+                    return false;
+                }else {
+                    return false;
+                }
+            })
+        })
+        /*var vue = new Vue({
+            el: "#dataTable",
+            methods: {
+                deleteUser: function (event) {
+                    if(confirm("确定删除吗")) {
+                        let deleteForm = document.getElementById("deleteForm");
+                        //将事件触发的超链接赋值给表单
+                        deleteForm.action = event.target.href;
+                        //提交表单
+                        deleteForm.submit();
+                        //取消超链接默认行为
+                        event.preventDefault();
+                    } else {
+                        event.preventDefault();
+                        return false
+                    }
+
+                }
+            }
+        });*/
     </script>
     <style>
         * {
@@ -93,7 +119,7 @@
             <td th:text="${user.level}"></td>
             <td th:text="${user.tel}"></td>
             <td th:text="${#dates.format(user.birth, 'yyyy-MM-dd')}"></td>
-            <td class="MyActive"><a th:href="@{/user/}+${user.userId}">修改</a>/<a @click="deleteUser" th:href="@{/user/}+${user.userId}">删除</a>
+            <td class="MyActive"><a th:href="@{/user/}+${user.userId}">修改</a>/<a class="del" th:href="@{/user/}+${user.userId}" th:name="${user.name}">删除</a>
             </td>
         </tr>
 
@@ -102,29 +128,8 @@
 <form id="deleteForm" method="post">
     <input type="hidden" name="_method" value="delete">
 </form>
-<script th:src="@{/js/vue.js}"></script>
-<script>
-    var vue = new Vue({
-        el: "#dataTable",
-        methods: {
-            deleteUser: function (event) {
-                if(confirm("确定删除吗")) {
-                    let deleteForm = document.getElementById("deleteForm");
-                    //将事件触发的超链接赋值给表单
-                    deleteForm.action = event.target.href;
-                    //提交表单
-                    deleteForm.submit();
-                    //取消超链接默认行为
-                    event.preventDefault();
-                } else {
-                    event.preventDefault();
-                    return false
-                }
 
-            }
-        }
-    });
-</script>
+
 <br>
 <br>
 <br>

@@ -3,5 +3,5 @@
 
 `openjdk17.0.0`
 `maven 3.6.3`
-spring boot and mysql
+mysql版本8.0.27  
 mybatis

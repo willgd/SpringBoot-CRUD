@@ -2,8 +2,10 @@ package com.example.springbootcrud.controller;
 
 import com.example.springbootcrud.pojo.Admin;
 import com.example.springbootcrud.pojo.User;
+import com.example.springbootcrud.pojo.UserLogin;
 import com.example.springbootcrud.serviceImpl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +26,37 @@ import java.util.Map;
 public class UserController {
     @Autowired
     UserServiceImpl userService;
+    @Autowired
+    UserLogin userLogin;
+
+    /**
+     * 跳转登录页面
+     * @param
+     * @return
+     */
+    @RequestMapping("/toLogin")
+    public String toLogin(){
+        return "login";
+    }
+
+    /**
+     * 登录处理
+     * @param request
+     */
+    @RequestMapping("/login")
+    public void login(HttpServletRequest request){
+        Map<String, String[]> loginUser = request.getParameterMap();
+        try {
+            BeanUtils.populate(userLogin, loginUser);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        log.info("userLogin={}",userLogin);
+        UserLogin user = userService.login(userLogin);
+
+        log.info("userLogin1={}",user);
+    }
+
 
     /**
      * 展示用户数据
@@ -119,13 +153,6 @@ public class UserController {
         userService.deleteUserByUserId(userId);
         System.out.println("删除用户："+userId);
         return "redirect:/user";
-    }
-
-    @RequestMapping("/login")
-    public String login(HttpServletRequest request){
-        Map<String, String[]> loginUser = request.getParameterMap();
-        log.info("loginUser={}",loginUser);
-        return "login";
     }
 
     /**

@@ -1,9 +1,11 @@
 package com.example.springbootcrud.serviceImpl;
 
 import com.example.springbootcrud.mapper.AdminMapper;
+import com.example.springbootcrud.mapper.UserLoginMapper;
 import com.example.springbootcrud.mapper.UserMapper;
 import com.example.springbootcrud.pojo.Admin;
 import com.example.springbootcrud.pojo.User;
+import com.example.springbootcrud.pojo.UserLogin;
 import com.example.springbootcrud.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
     @Autowired
     AdminMapper adminMapper;
+    @Autowired
+    UserLoginMapper userLoginMapper;
+
 
     /**
      * 根据userId查询用户
@@ -108,5 +113,15 @@ public class UserServiceImpl implements UserService {
         }else {
             userMapper.insertUser(user);
         }
+    }
+
+    /**
+     * 登录
+     * @param userLogin
+     * @return
+     */
+    @Override
+    public UserLogin login(UserLogin userLogin) {
+        return userLoginMapper.login(userLogin);
     }
 }

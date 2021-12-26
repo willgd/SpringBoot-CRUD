@@ -7,11 +7,17 @@ import com.example.springbootcrud.serviceImpl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import redis.clients.jedis.Jedis;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +34,8 @@ public class UserController {
     UserServiceImpl userService;
     @Autowired
     UserLogin userLogin;
-
+    @Autowired
+    StringRedisTemplate redisTemplate;
     /**
      * 跳转登录页面
      * @param
@@ -37,6 +44,7 @@ public class UserController {
     @RequestMapping("/toLogin")
     public String toLogin(){
         return "login";
+
     }
 
     /**
@@ -53,21 +61,7 @@ public class UserController {
         }
         log.info("userLogin={}",userLogin);
         UserLogin user = userService.login(userLogin);
-
         log.info("userLogin1={}",user);
-    }
-
-
-    /**
-     * 展示用户数据
-     * @param request
-     * @return
-     */
-    @RequestMapping(value = "/user")
-    public String toUser(HttpServletRequest request){
-        List<User> userList = userService.getAllUser();
-        request.setAttribute("userList",userList);
-        return "User";
     }
 
     /**
@@ -81,6 +75,23 @@ public class UserController {
         request.setAttribute("adminList",adminList);
         return "admin";
     }
+
+    /**
+     * 展示用户数据
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/user",method = RequestMethod.GET)
+    public String toUser(HttpServletRequest request,Model model){
+        List<User> userList = userService.getAllUser();
+        request.setAttribute("userList",userList);
+        ValueOperations<String, String> operations = redisTemplate.opsForValue();
+        String s = operations.get("/user");
+        log.info("访问次数:={}",s);
+        model.addAttribute("userCount",s);
+        return "User";
+    }
+
 
     /**
      * 查看用户详细信息，跳转到更新界面

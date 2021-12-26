@@ -89,12 +89,29 @@
             height: 100%;
             background-image: linear-gradient(to right, #fbc2eb, #a6c1ee);
         }
+        .div-right{
+            float: right;
+        }
+        .listitem{
+            margin-left: 20px;
+            margin-top: 20px;
+            overflow: hidden;
 
+        }
+        .listitemimage{
+            width:50px ;
+            height: 50px;
+            transition:all 0.6s;
+        }
 
+        .listitemimage:hover{
+            transform: scale(5);
+        }
     </style>
 </head>
 <body>
 <div class="container">
+    <div class="div-right">当前页面浏览次数[[${userCount}]]</div>
     <table class="gridtable" id="dataTable">
         <caption class="MyActive">用户信息</caption>
         <tr>
@@ -109,8 +126,8 @@
             <td><label>birth</label></td>
             <td class="MyActive"><a th:href="@{/addUser}">添加</a></td>
         </tr>
-        <tr th:each="user: ${userList}">
-            <td><img height="50" width="50" alt="" th:src="@{/}+${user.avatar}"></td>
+        <tr th:each="user: ${userList}" class="listitem">
+            <td><img height="50" width="50" alt="" th:src="@{/}+${user.avatar}" class="listitemimage"></td>
             <td th:text="${user.userId}"></td>
             <td th:text="${user.name}"></td>
             <td th:text="${user.age}"></td>

@@ -9,6 +9,7 @@ import com.example.springbootcrud.pojo.UserLogin;
 import com.example.springbootcrud.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -122,6 +123,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserLogin login(UserLogin userLogin) {
+
         return userLoginMapper.login(userLogin);
     }
 }

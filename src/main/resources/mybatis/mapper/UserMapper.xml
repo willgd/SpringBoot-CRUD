@@ -25,4 +25,12 @@
                         level=#{level},tel=#{tel},birth=#{birth}
         where user_Id=#{userId}
     </update>
+    <update id="updateUserByUserIdNoAvatar" parameterType="User">
+        update user set
+                        name=#{name},age=#{age},email=#{email},gender=#{gender},
+                        detail=#{detail},detail=#{detail},
+                        level=#{level},tel=#{tel},birth=#{birth}
+        where user_Id=#{userId}
+    </update>
+
 </mapper>

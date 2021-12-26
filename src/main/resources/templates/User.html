@@ -115,20 +115,18 @@
     <table class="gridtable" id="dataTable">
         <caption class="MyActive">用户信息</caption>
         <tr>
-            <td><label>avatar</label></td>
-            <td><label>userID</label></td>
-            <td><label>name</label></td>
-            <td><label>age</label></td>
-            <td><label>email</label></td>
-            <td><label>gender</label></td>
+            <td><label>头像</label></td>
+            <td><label>昵称</label></td>
+            <td><label>年龄</label></td>
+            <td><label>邮箱</label></td>
+            <td><label>性别</label></td>
             <td><label>level</label></td>
-            <td><label>tel</label></td>
-            <td><label>birth</label></td>
+            <td><label>电话号码</label></td>
+            <td><label>生日</label></td>
             <td class="MyActive"><a th:href="@{/addUser}">添加</a></td>
         </tr>
         <tr th:each="user: ${userList}" class="listitem">
             <td><img height="50" width="50" alt="" th:src="@{/}+${user.avatar}" class="listitemimage"></td>
-            <td th:text="${user.userId}"></td>
             <td th:text="${user.name}"></td>
             <td th:text="${user.age}"></td>
             <td th:text="${user.email}"></td>

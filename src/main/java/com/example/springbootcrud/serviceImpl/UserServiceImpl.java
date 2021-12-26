@@ -82,14 +82,23 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void updateUserByUserId(User user) {
-        log.info("user={}",user);
-        if (user.isAdmin()){
-            userMapper.updateUserByUserId(user);
-            adminMapper.updateAdmin(new Date(),user.getUserId());
+        if (user.getAvatar()!=null) {
+            if (user.isAdmin()) {
+                userMapper.updateUserByUserId(user);
+                adminMapper.updateAdmin(new Date(), user.getUserId());
+            } else {
+                userMapper.updateUserByUserId(user);
+            }
         }else {
-            userMapper.updateUserByUserId(user);
+            if (user.isAdmin()) {
+                userMapper.updateUserByUserIdNoAvatar(user);
+                adminMapper.updateAdmin(new Date(), user.getUserId());
+            } else {
+                userMapper.updateUserByUserIdNoAvatar(user);
+            }
         }
     }
+
 
     /**
      * 根据userId删除用户

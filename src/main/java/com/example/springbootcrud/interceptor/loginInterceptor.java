@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 public class loginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String uri = request.getRequestURI();
-        log.info("拦截的请求路径是：={}",uri);
         return true;
     }
 

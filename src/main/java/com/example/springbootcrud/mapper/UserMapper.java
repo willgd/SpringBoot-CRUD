@@ -11,6 +11,7 @@ public interface UserMapper {
     public User getUserByUserId(int userId);
     public List<User> getAllUser();
     public void updateUserByUserId(User user);
+    public void updateUserByUserIdNoAvatar(User user);
     public void deleteUserByUserId(int userId);
     public void insertUser(User user);
 }

@@ -117,8 +117,7 @@ public class UserController {
     @RequestMapping(value = "/user",method = RequestMethod.PUT)
     public String update(User user,@RequestPart("handImg") MultipartFile handImg) throws IOException {
         if (!handImg.isEmpty()){
-            String filename = handImg.getOriginalFilename();
-            String Path = ClassUtils.getDefaultClassLoader().getResource("").getPath() + "static/img/" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + filename;
+            String Path = ClassUtils.getDefaultClassLoader().getResource("").getPath() + "static/img/" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
             String substring = Path.substring(Path.lastIndexOf("/")+1);
             log.info("avatar:avatar={}",substring);
             user.setAvatar("img/"+substring);
@@ -126,6 +125,7 @@ public class UserController {
             handImg.transferTo(new File(Path));
             userService.updateUserByUserId(user);
         }else {
+            log.info("user.getAvatar()={}",user.getAvatar());
             userService.updateUserByUserId(user);
         }
         return "redirect:/user";

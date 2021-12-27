@@ -130,7 +130,7 @@
             <td><label>生日</label></td>
             <td class="MyActive"><a th:href="@{/addUser}">添加</a></td>
         </tr>
-        <tr th:each="user,count:${userList}" class="listitem">
+        <tr th:each="user,count:${pageInfo.list}" class="listitem">
             <td><input type="checkbox"></td>
             <td th:text="${count.count}"></td>
             <td><img height="50" width="50" alt="" th:src="@{/}+${user.avatar}" class="listitemimage"></td>
@@ -149,8 +149,19 @@
         <tr>
             <td>
                 <a th:href="@{/user?pageNum=1&pageSize=5}">首页</a>
-                <a th:href="'/user?pageNum='+${userList.pageNum-1}">上一页</a>
-                <a th:href="'/user?pageNum='+${userList.pageNum+1}">下一页</a>
+                <span th:if="${pageInfo.hasPreviousPage}==true">
+                    <a th:href="'/user?pageNum='+${pageInfo.prePage}">上一页</a>
+                </span>
+                <span th:if="${pageInfo.hasPreviousPage}==false">
+                    <a href="javascript:void(0);">上一页</a>
+                </span>
+
+                <span th:if="${pageInfo.hasNextPage}==true">
+                    <a th:href="'/user?pageNum='+${pageInfo.nextPage}">下一页</a>
+                </span>
+                <span th:if="${pageInfo.hasNextPage}==false">
+                    <a href="javascript:void(0);">下一页</a>
+                </span>
             </td>
         </tr>
     </table>

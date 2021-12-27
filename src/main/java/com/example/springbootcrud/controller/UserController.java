@@ -1,9 +1,11 @@
 package com.example.springbootcrud.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.springbootcrud.pojo.Admin;
 import com.example.springbootcrud.pojo.User;
 import com.example.springbootcrud.pojo.UserLogin;
 import com.example.springbootcrud.serviceImpl.UserServiceImpl;
+import com.github.pagehelper.PageInfo;
 import io.lettuce.core.dynamic.annotation.Param;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
@@ -75,14 +77,16 @@ public class UserController {
 
     /**
      * 展示用户数据
-     * @param request
+     * @param
      * @return
      */
     @RequestMapping(value = "/user",method = RequestMethod.GET)
-    public String toUser(HttpServletRequest request, Model model, @RequestParam(value = "pageNum",defaultValue = "1")int pageNum, @RequestParam(value = "pageSize",defaultValue = "5")int pageSize){
-        List<User> userList = userService.getAllUser(pageNum,pageSize);
-        System.out.println(userList);
-        request.setAttribute("userList",userList);
+    public String toUser(Model model, @RequestParam(value = "pageNum",defaultValue = "1")int pageNum, @RequestParam(value = "pageSize",defaultValue = "5")int pageSize){
+        PageInfo<User> pageInfo = userService.getAllUser(pageNum, pageSize);
+        log.info("pageInfo:={}",pageInfo);
+        model.addAttribute("pageInfo",pageInfo);
+        List<User> userList = pageInfo.getList();
+        log.info("userList:={}",userList);
         ValueOperations<String, String> operations = redisTemplate.opsForValue();
         String s = operations.get("/user");
         log.info("访问次数:={}",s);

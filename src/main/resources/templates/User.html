@@ -7,11 +7,11 @@
     <script>
         $(function () {
             $(".del").click(function () {
-                let confirm1 = confirm("确定删除用户"+this.name+"吗？");
-                if (confirm1){
-                    $("#deleteForm").attr("action",this.href).submit();
+                let confirm1 = confirm("确定删除用户" + this.name + "吗？");
+                if (confirm1) {
+                    $("#deleteForm").attr("action", this.href).submit();
                     return false;
-                }else {
+                } else {
                     return false;
                 }
             })
@@ -89,22 +89,25 @@
             height: 100%;
             background-image: linear-gradient(to right, #fbc2eb, #a6c1ee);
         }
-        .div-right{
+
+        .div-right {
             float: right;
         }
-        .listitem{
+
+        .listitem {
             margin-left: 20px;
             margin-top: 20px;
             overflow: hidden;
 
         }
-        .listitemimage{
-            width:50px ;
+
+        .listitemimage {
+            width: 50px;
             height: 50px;
-            transition:all 0.6s;
+            transition: all 0.6s;
         }
 
-        .listitemimage:hover{
+        .listitemimage:hover {
             transform: scale(5);
         }
     </style>
@@ -115,6 +118,8 @@
     <table class="gridtable" id="dataTable">
         <caption class="MyActive">用户信息</caption>
         <tr>
+            <td><input type="checkbox"></td>
+            <td><label>序号</label></td>
             <td><label>头像</label></td>
             <td><label>昵称</label></td>
             <td><label>年龄</label></td>
@@ -125,7 +130,9 @@
             <td><label>生日</label></td>
             <td class="MyActive"><a th:href="@{/addUser}">添加</a></td>
         </tr>
-        <tr th:each="user: ${userList}" class="listitem">
+        <tr th:each="user,count:${userList}" class="listitem">
+            <td><input type="checkbox"></td>
+            <td th:text="${count.count}"></td>
             <td><img height="50" width="50" alt="" th:src="@{/}+${user.avatar}" class="listitemimage"></td>
             <td th:text="${user.name}"></td>
             <td th:text="${user.age}"></td>
@@ -134,11 +141,20 @@
             <td th:text="${user.level}"></td>
             <td th:text="${user.tel}"></td>
             <td th:text="${#dates.format(user.birth, 'yyyy-MM-dd')}"></td>
-            <td class="MyActive"><a th:href="@{/user/}+${user.userId}">修改</a>/<a class="del" th:href="@{/user/}+${user.userId}" th:name="${user.name}">删除</a>
+            <td class="MyActive"><a th:href="@{/user/}+${user.userId}">修改</a>/<a class="del"
+                                                                                 th:href="@{/user/}+${user.userId}"
+                                                                                 th:name="${user.name}">删除</a>
             </td>
         </tr>
-
+        <tr>
+            <td>
+                <a th:href="@{/user?pageNum=1&pageSize=5}">首页</a>
+                <a th:href="'/user?pageNum='+${userList.pageNum-1}">上一页</a>
+                <a th:href="'/user?pageNum='+${userList.pageNum+1}">下一页</a>
+            </td>
+        </tr>
     </table>
+
 </div>
 <form id="deleteForm" method="post">
     <input type="hidden" name="_method" value="delete">

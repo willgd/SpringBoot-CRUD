@@ -4,11 +4,10 @@ import com.example.springbootcrud.pojo.Admin;
 import com.example.springbootcrud.pojo.User;
 import com.example.springbootcrud.pojo.UserLogin;
 import com.example.springbootcrud.serviceImpl.UserServiceImpl;
+import io.lettuce.core.dynamic.annotation.Param;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Controller;
@@ -16,8 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import redis.clients.jedis.Jedis;
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -82,8 +79,9 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/user",method = RequestMethod.GET)
-    public String toUser(HttpServletRequest request,Model model){
-        List<User> userList = userService.getAllUser();
+    public String toUser(HttpServletRequest request, Model model, @RequestParam(value = "pageNum",defaultValue = "1")int pageNum, @RequestParam(value = "pageSize",defaultValue = "5")int pageSize){
+        List<User> userList = userService.getAllUser(pageNum,pageSize);
+        System.out.println(userList);
         request.setAttribute("userList",userList);
         ValueOperations<String, String> operations = redisTemplate.opsForValue();
         String s = operations.get("/user");

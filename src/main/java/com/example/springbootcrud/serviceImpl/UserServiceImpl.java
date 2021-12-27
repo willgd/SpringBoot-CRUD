@@ -7,6 +7,8 @@ import com.example.springbootcrud.pojo.Admin;
 import com.example.springbootcrud.pojo.User;
 import com.example.springbootcrud.pojo.UserLogin;
 import com.example.springbootcrud.service.UserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -42,8 +44,11 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public List<User> getAllUser() {
-        return userMapper.getAllUser();
+    public List<User> getAllUser(int pageNum,int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<User> userList = userMapper.getAllUser();
+        PageInfo<User> pageInfo = new PageInfo<>(userList);
+        return pageInfo.getList();
     }
 
     /**

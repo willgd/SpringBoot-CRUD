@@ -40,7 +40,7 @@ class SpringBootCrudApplicationTests {
      */
     @Test
     void testGetAllUser(){
-        log.info("GetAllUser查询到结果为：={}",userService.getAllUser());
+        log.info("GetAllUser查询到结果为：={}",userService.getAllUser(1,5));
     }
 
     /**

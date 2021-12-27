@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UserService {
     public User getUserByUserId(int userId);
-    public List<User> getAllUser();
+    public List<User> getAllUser(int pageNum,int pageSize);
     public Admin getAdminByUserId(int userId);
     public List<Admin> getAllAdmin();
     public void updateUserByUserId(User user);

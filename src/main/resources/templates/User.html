@@ -114,7 +114,10 @@
 </head>
 <body>
 <div class="container">
-    <div class="div-right">[[${session.loginUser.name}]]欢迎您,当前页面浏览次数[[${userCount}]]</div>
+    <div class="div-right">
+        <span th:if="${session.msg.exist}==true" th:text="${session.msg.successMsg}+${session.msg.user.name}+',当前页面访问次数为:'+${userCount}" style="color: green"></span>
+        <span th:if="${session.msg.exist}==false" style="color: red"><a th:href="@{/login}" th:text="暂未登录请先登录"></a></span>
+    </div>
     <table class="gridtable" id="dataTable">
         <caption class="MyActive">用户信息</caption>
         <tr>
@@ -147,7 +150,7 @@
             </td>
         </tr>
         <tr>
-            <td>
+            <td colspan="5">
                 <a th:href="@{/user?pageNum=1&pageSize=5}">首页</a>
                 <span th:if="${pageInfo.hasPreviousPage}==true">
                     <a th:href="'/user?pageNum='+${pageInfo.prePage}">上一页</a>
@@ -162,6 +165,9 @@
                 <span th:if="${pageInfo.hasNextPage}==false">
                     <a href="javascript:void(0);">下一页</a>
                 </span>
+            </td>
+            <td colspan="6">
+                <span>共[[${pageInfo.pages}]]页，当前第[[${pageInfo.pageNum}]]页，共[[${pageInfo.total}]]条数据。</span>
             </td>
         </tr>
     </table>

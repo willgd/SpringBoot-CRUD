@@ -5,7 +5,7 @@
 
 <mapper namespace="com.example.springbootcrud.mapper.AdminMapper">
     <insert id="insertAdmin">
-        insert into admin(admin_id, user_id, creat_time, update_time)
+        insert into admin(admin_id, user_id, create_time, update_time)
         VALUES (#{adminId},#{userId},#{creatTime},#{updateTime})
     </insert>
     <update id="updateAdmin">

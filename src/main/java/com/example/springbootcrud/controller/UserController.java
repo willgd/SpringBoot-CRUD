@@ -1,12 +1,11 @@
 package com.example.springbootcrud.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.springbootcrud.pojo.Admin;
+import com.example.springbootcrud.pojo.MsgInfo;
 import com.example.springbootcrud.pojo.User;
 import com.example.springbootcrud.pojo.UserLogin;
 import com.example.springbootcrud.serviceImpl.UserServiceImpl;
 import com.github.pagehelper.PageInfo;
-import io.lettuce.core.dynamic.annotation.Param;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,16 +35,8 @@ public class UserController {
     UserLogin userLogin;
     @Autowired
     StringRedisTemplate redisTemplate;
-    /**
-     * 跳转登录页面
-     * @param
-     * @return
-     */
-    @RequestMapping("/toLogin")
-    public String toLogin(){
-        return "login";
-
-    }
+    @Autowired
+    MsgInfo msgInfo;
 
     /**
      * 登录处理
@@ -54,6 +45,7 @@ public class UserController {
     @RequestMapping("/login")
     public String login(HttpServletRequest request){
         Map<String, String[]> loginUser = request.getParameterMap();
+        HttpSession session = request.getSession();
         try {
             BeanUtils.populate(userLogin, loginUser);
         } catch (IllegalAccessException | InvocationTargetException e) {
@@ -64,12 +56,15 @@ public class UserController {
         if(user!=null){
             log.info("userLogin1={}",user);
             User activeUser = userService.getUserByUserId(user.getUserId());
-            HttpSession session = request.getSession();
-            session.setAttribute("loginUser",activeUser);
-            /*request.setAttribute("msg","登陆成功！");*/
+            msgInfo.setUser(activeUser);
+            msgInfo.setSuccessMsg("欢迎");
+            msgInfo.setExist(true);
+            session.setAttribute("msg",msgInfo);
             return "redirect:/user";
         }else {
-            request.setAttribute("msg","用户名不存在或密码错误！");
+            msgInfo.setErrorMsg("用户名不存在或密码错误！");
+            msgInfo.setExist(false);
+            session.setAttribute("msg",msgInfo);
             return "login";
         }
 

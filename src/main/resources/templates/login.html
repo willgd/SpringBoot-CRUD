@@ -7,12 +7,15 @@
     <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
     <title>Login</title>
     <script>
-        $(function () {
+        /*$(function () {
             $("#tj").click(function () {
                 $("#loginFrom").attr("action",this.href).submit();
                 return false;
             })
-        })
+        })*/
+        function tj() {
+            $("#loginFrom").submit()
+        }
     </script>
     <style>
         a{
@@ -25,11 +28,12 @@
     <div class="login-wrapper">
         <div class="header">Login</div>
         <div class="form-wrapper">
-            <span th:text="${msg}" style="color: red"></span>
-            <form th:action="@{/loginUser}" id="loginFrom">
+            <span th:if="${session.msg.exist}==true" th:text="${session.msg.successMsg}" style="color: green"></span>
+            <span th:if="${session.msg.exist}==false" th:text="${session.msg.errorMsg}" style="color: red"></span>
+            <form th:action="@{/login}" id="loginFrom">
                 <input type="text" name="username" placeholder="username" class="input-item">
                 <input type="password" name="password" placeholder="password" class="input-item">
-                <div class="btn"><a th:href="@{/login}" id="tj" class="text-decoration:none">登录</a></div>
+                <div class="btn" onclick="tj()" style="cursor: pointer">登录</div>
             </form>
         </div>
         <div class="msg">

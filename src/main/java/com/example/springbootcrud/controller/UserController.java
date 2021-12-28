@@ -18,6 +18,7 @@ import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -51,7 +52,7 @@ public class UserController {
      * @param request
      */
     @RequestMapping("/login")
-    public void login(HttpServletRequest request){
+    public String login(HttpServletRequest request){
         Map<String, String[]> loginUser = request.getParameterMap();
         try {
             BeanUtils.populate(userLogin, loginUser);
@@ -60,7 +61,18 @@ public class UserController {
         }
         log.info("userLogin={}",userLogin);
         UserLogin user = userService.login(userLogin);
-        log.info("userLogin1={}",user);
+        if(user!=null){
+            log.info("userLogin1={}",user);
+            User activeUser = userService.getUserByUserId(user.getUserId());
+            HttpSession session = request.getSession();
+            session.setAttribute("loginUser",activeUser);
+            /*request.setAttribute("msg","登陆成功！");*/
+            return "redirect:/user";
+        }else {
+            request.setAttribute("msg","用户名不存在或密码错误！");
+            return "login";
+        }
+
     }
 
     /**

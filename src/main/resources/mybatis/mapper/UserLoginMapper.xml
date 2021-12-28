@@ -5,6 +5,6 @@
 
 <mapper namespace="com.example.springbootcrud.mapper.UserLoginMapper">
     <select id="login" resultType="UserLogin">
-        select * from user_login where user_id=#{userId}
+        select * from user_login where username=#{username} and password=#{password}
     </select>
 </mapper>

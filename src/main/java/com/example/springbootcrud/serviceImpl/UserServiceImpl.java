@@ -137,7 +137,6 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserLogin login(UserLogin userLogin) {
-
         return userLoginMapper.login(userLogin);
     }
 }

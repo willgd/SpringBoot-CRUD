@@ -25,6 +25,7 @@
     <div class="login-wrapper">
         <div class="header">Login</div>
         <div class="form-wrapper">
+            <span th:text="${msg}" style="color: red"></span>
             <form th:action="@{/loginUser}" id="loginFrom">
                 <input type="text" name="username" placeholder="username" class="input-item">
                 <input type="password" name="password" placeholder="password" class="input-item">

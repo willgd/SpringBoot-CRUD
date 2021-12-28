@@ -87,11 +87,13 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void updateUserByUserId(User user) {
+        //userLoginMapper.loginTime(user.getUserId(),new Date());
         if (user.getAvatar()!=null) {
             if (user.isAdmin()) {
                 userMapper.updateUserByUserId(user);
                 adminMapper.updateAdmin(new Date(), user.getUserId());
             } else {
+                //userLoginMapper.loginTime(user.getUserId(),new Date());
                 userMapper.updateUserByUserId(user);
             }
         }else {
@@ -121,6 +123,7 @@ public class UserServiceImpl implements UserService {
      */
     @Transactional
     @Override
+    //TODO 创建账号没做完 还有要设置账号和密码 这是后台添加数据页面
     public void insertUser(User user) {
         if (user.isAdmin()) {
             userMapper.insertUser(user);
@@ -137,6 +140,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserLogin login(UserLogin userLogin) {
+
         return userLoginMapper.login(userLogin);
     }
 }

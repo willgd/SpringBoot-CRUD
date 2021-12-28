@@ -22,7 +22,6 @@ public class User {
     private Date birth;
     @TableField(exist = false)
     private boolean admin;
-
     public boolean isAdmin() {
         return adminCode == 1;
     }

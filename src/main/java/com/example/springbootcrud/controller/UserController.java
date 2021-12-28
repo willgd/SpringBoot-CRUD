@@ -57,6 +57,7 @@ public class UserController {
             log.info("userLogin1={}",user);
             User activeUser = userService.getUserByUserId(user.getUserId());
             msgInfo.setUser(activeUser);
+            msgInfo.setUserLogin(user);
             msgInfo.setSuccessMsg("欢迎");
             msgInfo.setExist(true);
             session.setAttribute("msg",msgInfo);

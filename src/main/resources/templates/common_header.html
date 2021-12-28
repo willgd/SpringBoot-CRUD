@@ -1,1 +1,2 @@
-<span th:text="${msg}" style="color: red"></span>
+<span th:if="${session.msg.exist}==true" th:text="${session.msg.successMsg}" style="color: green"></span>
+<span th:if="${session.msg.exist}==false" th:text="${session.msg.errorMsg}" style="color: red"></span>

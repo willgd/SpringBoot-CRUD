@@ -1,9 +1,6 @@
 package com.example.springbootcrud.controller;
 
-import com.example.springbootcrud.pojo.Admin;
-import com.example.springbootcrud.pojo.MsgInfo;
-import com.example.springbootcrud.pojo.User;
-import com.example.springbootcrud.pojo.UserLogin;
+import com.example.springbootcrud.pojo.*;
 import com.example.springbootcrud.serviceImpl.UserServiceImpl;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -37,12 +34,14 @@ public class UserController {
     StringRedisTemplate redisTemplate;
     @Autowired
     MsgInfo msgInfo;
+    @Autowired
+    UserInfo userInfo;
 
     /**
      * 登录处理
      * @param request
      */
-    @RequestMapping("/login")
+    @RequestMapping(value = {"/login"},method = {RequestMethod.POST,RequestMethod.GET})
     public String login(HttpServletRequest request){
         Map<String, String[]> loginUser = request.getParameterMap();
         HttpSession session = request.getSession();
@@ -51,24 +50,40 @@ public class UserController {
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
-        log.info("userLogin={}",userLogin);
         UserLogin user = userService.login(userLogin);
         if(user!=null){
-            log.info("userLogin1={}",user);
             User activeUser = userService.getUserByUserId(user.getUserId());
-            msgInfo.setUser(activeUser);
-            msgInfo.setUserLogin(user);
+            userInfo.setUser(activeUser);
+            userInfo.setUserLogin(user);
+            userInfo.setCode(1);
             msgInfo.setSuccessMsg("欢迎");
-            msgInfo.setExist(true);
+            msgInfo.setExist(1);
             session.setAttribute("msg",msgInfo);
+            session.setAttribute("userInfo",userInfo);
             return "redirect:/user";
         }else {
             msgInfo.setErrorMsg("用户名不存在或密码错误！");
-            msgInfo.setExist(false);
+            msgInfo.setExist(0);
             session.setAttribute("msg",msgInfo);
             return "login";
         }
 
+    }
+
+    /**
+     * 退出登录功能
+     * @param session
+     * @return
+     */
+    @RequestMapping("/exitLogin")
+    public String exitLogin(HttpSession session) {
+        session.removeAttribute("userInfo");
+        msgInfo.setExist(0);
+        msgInfo.setErrorMsg("请先登录!");
+        session.setAttribute("msg",msgInfo);
+        System.out.println("退出成功");
+        log.info("exit:  msgInfo={}",msgInfo);
+        return "login";
     }
 
     /**
@@ -89,17 +104,22 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/user",method = RequestMethod.GET)
-    public String toUser(Model model, @RequestParam(value = "pageNum",defaultValue = "1")int pageNum, @RequestParam(value = "pageSize",defaultValue = "5")int pageSize){
-        PageInfo<User> pageInfo = userService.getAllUser(pageNum, pageSize);
-        log.info("pageInfo:={}",pageInfo);
-        model.addAttribute("pageInfo",pageInfo);
-        List<User> userList = pageInfo.getList();
-        log.info("userList:={}",userList);
-        ValueOperations<String, String> operations = redisTemplate.opsForValue();
-        String s = operations.get("/user");
-        log.info("访问次数:={}",s);
-        model.addAttribute("userCount",s);
-        return "User";
+    public String toUser(HttpServletRequest request,Model model, @RequestParam(value = "pageNum",defaultValue = "1")int pageNum, @RequestParam(value = "pageSize",defaultValue = "5")int pageSize){
+        if(request.getSession().getAttribute("userInfo") !=null) {
+            PageInfo<User> pageInfo = userService.getAllUser(pageNum, pageSize);
+            model.addAttribute("pageInfo", pageInfo);
+            List<User> userList = pageInfo.getList();
+            ValueOperations<String, String> operations = redisTemplate.opsForValue();
+            String s = operations.get("/user");
+            log.info("访问次数:={}", s);
+            model.addAttribute("userCount", s);
+            return "User";
+        }else {
+            msgInfo.setExist(0);
+            msgInfo.setErrorMsg("请先登录！");
+            request.getSession().setAttribute("msg",msgInfo);
+            return "login";
+        }
     }
 
 

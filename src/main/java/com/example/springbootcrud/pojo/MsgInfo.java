@@ -13,7 +13,5 @@ import org.springframework.stereotype.Component;
 public class MsgInfo {
     private String errorMsg;
     private String successMsg;
-    public User user;
-    private UserLogin userLogin;
-    private Boolean exist;
+    private int exist;
 }

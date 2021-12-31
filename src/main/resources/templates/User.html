@@ -15,7 +15,14 @@
                     return false;
                 }
             })
-
+            $("#exit").click(function () {
+                let confirm1 = confirm("确定退出登录吗？");
+                if (confirm1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            })
         })
 
         function startTime() {
@@ -50,42 +57,30 @@
             return i;
         }
 
-        function clickAll(){
-            $(".checkOne").prop("checked",$(".checkAll").prop("checked"));
+        function clickAll() {
+            $(".checkOne").prop("checked", $(".checkAll").prop("checked"));
         }
-        function clickOne(){
-            let allChecked = true;
-            $(".checkOne").each(function(){
-                if($(this).prop("checked") == false){
-                    allChecked = false;
-                };
-            });
-            if(allChecked){
-                $(".checkAll").prop("checked",true);
-            } else {
-                $(".checkAll").prop("checked",false);
-            }
-        }
-        /*var vue = new Vue({
-            el: "#dataTable",
-            methods: {
-                deleteUser: function (event) {
-                    if(confirm("确定删除吗")) {
-                        let deleteForm = document.getElementById("deleteForm");
-                        //将事件触发的超链接赋值给表单
-                        deleteForm.action = event.target.href;
-                        //提交表单
-                        deleteForm.submit();
-                        //取消超链接默认行为
-                        event.preventDefault();
-                    } else {
-                        event.preventDefault();
-                        return false
-                    }
 
+        function clickOne() {
+            let allChecked = true;
+            $(".checkOne").each(function () {
+                if ($(this).prop("checked") == false) {
+                    allChecked = false;
                 }
+                ;
+            });
+            if (allChecked) {
+                $(".checkAll").prop("checked", true);
+            } else {
+                $(".checkAll").prop("checked", false);
             }
-        });*/
+        }
+
+        function exitLogin() {
+            $.get("/exitLogin",date, function () {
+                alert('退出成功');
+            });
+        }
     </script>
     <style>
         * {
@@ -166,11 +161,12 @@
 <div class="container">
     <div class="div-right">
         <!--<span th:replace="common_header"></span>-->
-        <p >
-            <span th:if="${session.msg.exist}==true"
-                  th:text="${session.msg.successMsg}+${session.msg.user.name}+',当前页面访问次数为:'+${userCount}"
+        <p>
+            <span th:if="${session.msg.exist}==1"
+                  th:text="${session.msg.successMsg}+${session.userInfo.user.name}+',当前页面访问次数为:'+${userCount}"
                   style="color: green"></span>
-            <span th:if="${session.msg.exist}==false" style="color: red"><a th:href="@{/login}" th:text="暂未登录请先登录"></a></span>
+            <span th:if="${session.msg.exist}==0" style="color: red"><a th:href="@{/login}" th:text="暂未登录请先登录"></a></span>
+            <span th:if="${session.msg.exist}==1"><a id="exit" th:href="@{/exitLogin}">退出登录</a></span>
             <span id="nowDateTimeSpan"></span>
         </p>
     </div>
@@ -232,6 +228,10 @@
 <form id="deleteForm" method="post">
     <input type="hidden" name="_method" value="delete">
 </form>
+<form id="exitForm" method="post">
+    <input type="hidden" name="_method" value="get">
+</form>
+
 
 
 <br>

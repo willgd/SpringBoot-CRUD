@@ -28,9 +28,9 @@
     <div class="login-wrapper">
         <div class="header">Login</div>
         <div class="form-wrapper">
-            <span th:if="${session.msg.exist}==true" th:text="${session.msg.successMsg}" style="color: green"></span>
-            <span th:if="${session.msg.exist}==false" th:text="${session.msg.errorMsg}" style="color: red"></span>
-            <form th:action="@{/login}" id="loginFrom">
+            <span th:if="${session.msg.exist}==1" th:text="${session.msg.successMsg}" style="color: green"></span>
+            <span th:if="${session.msg.exist}==0" th:text="${session.msg.errorMsg}" style="color: red"></span>
+            <form th:action="@{/login}" id="loginFrom" method="post">
                 <input type="text" name="username" placeholder="username" class="input-item">
                 <input type="password" name="password" placeholder="password" class="input-item">
                 <div class="btn" onclick="tj()" style="cursor: pointer">登录</div>
